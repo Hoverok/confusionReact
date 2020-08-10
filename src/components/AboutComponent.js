@@ -1,35 +1,44 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../shared/baseUrl';
+import { Loading } from './LoadingComponent';
+import { Fade, Stagger } from "react-animation-components";
 
-
-
-function RenderLeader({leader}) {
-    return (
-        // key uniquely identifies every rendered property
-        <div key={leader.id} className="col-12 mt-5">
-            <Media tag="li">
-                <Media left middle>
-                    <Media object src={leader.image} alt={leader.name} />
+function RenderLeader({ leaders, isLoading, errMess }) {
+    const leaderArray = leaders.map(leader => {
+        return (
+            // key uniquely identifies every rendered property
+            <div key={leader.id} className="col-12 mt-5">
+                <Media tag="li">
+                    <Media left middle>
+                        <Media object src={baseUrl + leader.image} alt={leader.name} />
+                    </Media>
+                    <Media body className="ml-5">
+                        <Media heading>{leader.name}</Media>
+                        <p>{leader.designation}</p>
+                        <p>{leader.description}</p>
+                    </Media>
                 </Media>
-                <Media body className="ml-5">
-                    <Media heading>{leader.name}</Media>
-                    <p>{leader.designation}</p>
-                    <p>{leader.description}</p>
-                </Media>
+            </div>
+        );
+    });
+    if (isLoading) {
+        return <Loading />;
+    } else if (errMess) {
+        return <h4>{errMess}</h4>;
+    } else
+        return (
+            <Media list>
+                <Stagger in>{leaderArray}</Stagger>
             </Media>
-        </div>
-    );
+        );
+
 }
 function About(props) {
 
     //functional component
-    const leaders = props.leaders.map((leader) => {
-        return (
-            <RenderLeader leader={leader} />
-        );
-    });
-
+    //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     return (
         <div className="container">
             <div className="row">
@@ -86,7 +95,9 @@ function About(props) {
                 </div>
                 <div className="col-12">
                     <Media list>
-                        {leaders}
+                        <RenderLeader leaders={props.leaders}
+                            isLoading={props.isLoading}
+                            errMess={props.ErrMess} />
                     </Media>
                 </div>
             </div>
