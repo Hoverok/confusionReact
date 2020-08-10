@@ -9,7 +9,7 @@ function RenderLeader({ leaders, isLoading, errMess }) {
     const leaderArray = leaders.map(leader => {
         return (
             // key uniquely identifies every rendered property
-            <div key={leader.id} className="col-12 mt-5">
+            <Fade key={leader.id} className="col-12 mt-5">
                 <Media tag="li">
                     <Media left middle>
                         <Media object src={baseUrl + leader.image} alt={leader.name} />
@@ -20,7 +20,7 @@ function RenderLeader({ leaders, isLoading, errMess }) {
                         <p>{leader.description}</p>
                     </Media>
                 </Media>
-            </div>
+            </Fade>
         );
     });
     if (isLoading) {
@@ -36,9 +36,6 @@ function RenderLeader({ leaders, isLoading, errMess }) {
 
 }
 function About(props) {
-
-    //functional component
-    //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     return (
         <div className="container">
             <div className="row">
